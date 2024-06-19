@@ -10,7 +10,7 @@ Papercut MF application server.
 
 The code in this repository, unless otherwise noted, is licensed under the [MIT License](https://raw.githubusercontent.com/MelonSmasher/papercut-mf/master/LICENSE).
 
-End-user licensing of the Papercut MF software is the responsibility of the end-user. Papercut MF software is not included in this repository, ensure that you agree to the [Papercut End User License Agreement](https://www.papercut.com/help/manuals/ng-mf/common/license/).
+End-user licensing of the Papercut MF software is the responsibility of the end-user. Ensure that you agree to the [Papercut End-User License Agreement](https://www.papercut.com/help/manuals/ng-mf/common/license/).
 
 ## Pull
 
