@@ -1,10 +1,16 @@
 # Papercut MF Application Server
 
-[![GitHub](https://img.shields.io/badge/GitHub-gray?logo=github)](https://github.com/melonsmasher/papercut-mf) [![DockerHub](https://img.shields.io/badge/DockerHub-white?logo=docker)](https://hub.docker.com/r/melonsmasher/papercut-mf)
+[![GitHub](https://img.shields.io/badge/GitHub-gray?logo=github)](https://github.com/melonsmasher/papercut-mf) [![DockerHub](https://img.shields.io/badge/DockerHub-white?logo=docker)](https://hub.docker.com/r/melonsmasher/papercut-mf) [![License](https://img.shields.io/github/license/melonsmasher/papercut-mf)](https://raw.githubusercontent.com/MelonSmasher/papercut-mf/master/LICENSE)
 
 ## Description
 
 Papercut MF application server.
+
+## License
+
+The code in this repository, unless otherwise noted, is licensed under the [MIT License](https://raw.githubusercontent.com/MelonSmasher/papercut-mf/master/LICENSE).
+
+End-user licensing of the Papercut MF software is the responsibility of the end-user. Papercut MF software is not included in this repository, ensure that you agree to the Papercut software license.
 
 ## Pull
 
