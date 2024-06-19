@@ -1,0 +1,82 @@
+services:
+  papercut-mf:
+    image: melonsmasher/papercut-mf:$PAPERCUT_MF_VERSION
+    platform: linux/amd64
+    hostname: $PAPERCUT_HOSTNAME
+    restart: always
+    volumes:
+      - ./vols/app/conf:/papercut/server/data/conf
+      - ./vols/app/custom:/papercut/server/custom
+      - ./vols/app/logs:/papercut/server/logs
+      - ./vols/app/backups:/papercut/server/data/backups
+      - ./vols/app/archive:/papercut/server/data/archive
+      - ./vols/app/reports:/papercut/server/reports
+      - ./vols/app/supervisor:/var/log/supervisor
+      # - /tmp/export.zip:/papercut/import.zip # Uncomment to import data from another server
+      # - /path/to/mysql-connector.jar:/papercut/server/lib-ext/mysql-connector.jar # Uncomment to add a mysql connector
+      # - /path/to/ojdbcx.jar:/papercut/server/lib-ext/ojdbcx.jar # Uncomment to add an oracle connector
+    ports:
+      - "9163:9163"
+      - "9164:9164"
+      - "9165:9165"
+      - "9191:9191"
+      - "9192:9192"
+      - "9193:9193"
+      - "9194:9194"
+      - "9195:9195"
+      - "10389:10389"
+      - "10636:10636"
+      - "137:137/udp"
+      - "139:139"
+      - "445:445"
+    environment:
+      - DB_HOST
+      - DB_NAME
+      - PAPERCUT_MF_VERSION
+      - PAPERCUT_ADMIN_USERNAME
+      - PAPERCUT_ADMIN_PASSWORD
+      - PAPERCUT_DATABASE_TYPE
+      - PAPERCUT_DATABASE_DRIVER
+      - PAPERCUT_DATABASE_URL
+      - PAPERCUT_DATABASE_USERNAME
+      - PAPERCUT_DATABASE_PASSWORD
+      - PAPERCUT_REPORTS_LABEL
+      - PAPERCUT_REPORTS_ENABLED
+      - PAPERCUT_LICENSE_BACKUP_INTERVAL_SECONDS
+      - PAPERCUT_FORCE_HOST_HEADER
+      - PAPERCUT_LOG_WEB_REQUESTS
+      - PAPERCUT_CSRF_CHECK_VALIDATE_REQUEST_ORIGIN
+      - PAPERCUT_CSRF_CHECK_DENY_UNKNOWN_ORIGIN
+      - PAPERCUT_HOSTNAME
+      - PAPERCUT_SSL_CERTIFICATE_CHECKS
+      - SMB_NETBIOS_NAME
+      - SMB_WORKGROUP
+    depends_on:
+      papercut-db:
+        condition: service_healthy
+
+  papercut-db:
+    image: postgres:$DB_VERSION
+    hostname: $DB_HOST
+    restart: always
+    command: -c 'max_connections=250'
+    shm_size: "256mb"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - ./vols/db:$PGDATA
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+      - PGDATA
+      - DB_VERSION
+      - DB_HOST
+      - DB_NAME
+      - DB_USER
+      - DB_PASS
+      - PG_TRUST_LOCALNET
+      - PGUSER

@@ -1,0 +1,25 @@
+admin.username=${PAPERCUT_ADMIN_USERNAME:=admin}
+admin.password=${PAPERCUT_ADMIN_PASSWORD:=papercut}
+server.enable-http-on-port-80=N
+server.enable-https-on-port-443=N
+server.port=9191
+server.ssl.port=9192
+server.ssl.high-security-port=9195
+require-cookies-for-login=Y
+server.ssl.hsts-enabled=N
+server.ssl.hsts-max-age-secs=31536000
+server.ssl.hsts-include-sub-domains=Y
+server.ssl.certificate-checks=${PAPERCUT_SSL_CERTIFICATE_CHECKS:=Y}
+database.type=${PAPERCUT_DATABASE_TYPE:=Internal}
+database.driver=${PAPERCUT_DATABASE_DRIVER}
+database.url=${PAPERCUT_DATABASE_URL}
+database.username=${PAPERCUT_DATABASE_USERNAME}
+database.password=${PAPERCUT_DATABASE_PASSWORD}
+central-reports.enabled=${PAPERCUT_REPORTS_ENABLED:=Y}
+central-reports.database.local.include=Y
+central-reports.database.local.label=${PAPERCUT_REPORTS_LABEL:=Local Site}
+central-reports.require-all-databases-online=Y
+server.force-host-header=${PAPERCUT_FORCE_HOST_HEADER:=}
+server.log-web-requests=${PAPERCUT_LOG_WEB_REQUESTS:=N}
+server.csrf-check.validate-request-origin=${PAPERCUT_CSRF_CHECK_VALIDATE_REQUEST_ORIGIN:=N}
+server.csrf-check.deny-unknown-origin=${PAPERCUT_CSRF_CHECK_DENY_UNKNOWN_ORIGIN:=N}
