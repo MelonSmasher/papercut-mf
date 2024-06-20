@@ -42,8 +42,9 @@ RUN $(useradd -m -d ${PAPERCUT_MF_INSTALL_DIR} -s /bin/bash ${PAPERCUT_USER} || 
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     chmod +x /entrypoint.sh && \
-    curl -o /usr/local/bin/envsubst -L ${ENVSUBST_DOWNLOAD_URL} && chmod +x /usr/local/bin/envsubst && \
-    curl -o ${PAPERCUT_MF_SCRIPT} -L ${PAPERCUT_DL_BASE_URL}$(echo ${PAPERCUT_MF_VERSION} | cut -d "." -f 1).x/pcmf-setup-${PAPERCUT_MF_VERSION}.sh && \
+    curl -o /usr/local/bin/envsubst -L ${ENVSUBST_DOWNLOAD_URL} && chmod +x /usr/local/bin/envsubst
+
+RUN curl -o ${PAPERCUT_MF_SCRIPT} -L ${PAPERCUT_DL_BASE_URL}$(echo ${PAPERCUT_MF_VERSION} | cut -d "." -f 1).x/pcmf-setup-${PAPERCUT_MF_VERSION}.sh && \
     chmod a+rx ${PAPERCUT_MF_SCRIPT} && \
     chown ${PAPERCUT_USER}:${PAPERCUT_USER} ${PAPERCUT_MF_SCRIPT} && \
     sudo -u ${PAPERCUT_USER} -H ./${PAPERCUT_MF_SCRIPT} -v --non-interactive && \
