@@ -25,7 +25,9 @@ WORKDIR ${PAPERCUT_MF_INSTALL_DIR}
 
 RUN useradd -m -d ${PAPERCUT_MF_INSTALL_DIR} -s /bin/bash ${PAPERCUT_USER} && \
     chown -R ${PAPERCUT_USER}:${PAPERCUT_USER} ${PAPERCUT_MF_INSTALL_DIR} && \
-    command apt-get update && apt-get install -y \
+    chmod +x /entrypoint.sh
+
+RUN apt-get update && apt-get install -y \
     curl \
     cups \
     cpio \
@@ -40,8 +42,13 @@ RUN useradd -m -d ${PAPERCUT_MF_INSTALL_DIR} -s /bin/bash ${PAPERCUT_USER} && \
     sudo && \
     apt-get autoremove -y && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
-    chmod +x /entrypoint.sh
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /etc/supervisor
+
+COPY src/supervisor /etc/supervisor
+
+RUN chmod 644 /etc/supervisor/supervisord.conf /etc/supervisor/conf.d/*.conf && \
+    chmod 755 /etc/supervisor /etc/supervisor/conf.d && \
+    chown -R root:root /etc/supervisor
 
 RUN curl -o /usr/local/bin/envsubst -L ${ENVSUBST_DOWNLOAD_URL} && chmod +x /usr/local/bin/envsubst && \
     curl -o ${PAPERCUT_MF_SCRIPT} -L ${PAPERCUT_DL_BASE_URL}$(echo ${PAPERCUT_MF_VERSION} | cut -d "." -f 1).x/pcmf-setup-${PAPERCUT_MF_VERSION}.sh && \
@@ -57,14 +64,7 @@ RUN curl -o /usr/local/bin/envsubst -L ${ENVSUBST_DOWNLOAD_URL} && chmod +x /usr
     /etc/init.d/papercut-event-monitor stop && \
     /etc/init.d/pc-print-deploy stop && \
     chmod +x ${PAPERCUT_MF_INSTALL_DIR}/server/bin/linux-x64/setperms && \
-    ${PAPERCUT_MF_INSTALL_DIR}/server/bin/linux-x64/setperms && \
-    rm -rf /etc/supervisor
-
-COPY src/supervisor /etc/supervisor
-
-RUN chmod 644 /etc/supervisor/supervisord.conf /etc/supervisor/conf.d/*.conf && \
-    chmod 755 /etc/supervisor /etc/supervisor/conf.d && \
-    chown -R root:root /etc/supervisor
+    ${PAPERCUT_MF_INSTALL_DIR}/server/bin/linux-x64/setperms
 
 VOLUME /papercut/server/data/conf /papercut/server/custom /papercut/server/logs /papercut/server/data/backups /papercut/server/data/archive
 EXPOSE 9163 9164 9165 9191 9192 9193 9194 9195 10389 10636 137/UDP 445 139
