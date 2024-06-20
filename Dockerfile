@@ -40,8 +40,9 @@ RUN --mount=type=cache,target=/var/cache/apt \
     samba-common \
     samba-common-bin \
     smbclient \
-    sudo && \
-    apt-get autoremove -y && \
+    sudo
+
+RUN apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /etc/supervisor
 
