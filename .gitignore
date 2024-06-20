@@ -82,3 +82,4 @@ $RECYCLE.BIN/
 vols/*
 .env
 docker-compose.yml
+build_all.sh
