@@ -44,8 +44,9 @@ RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     samba-common \
     samba-common-bin \
     smbclient \
-    sudo && \
-    rm -rf /etc/supervisor
+    sudo
+
+RUN rm -rf /etc/supervisor
 
 COPY src/supervisor /etc/supervisor
 
