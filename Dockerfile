@@ -29,8 +29,9 @@ RUN useradd -m -d ${PAPERCUT_MF_INSTALL_DIR} -s /bin/bash ${PAPERCUT_USER} && \
 
 RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     --mount=target=/var/cache/apt,type=cache,sharing=locked \
-    rm -f /etc/apt/apt.conf.d/docker-clean \
-    apt-get update && apt-get install -y --no-install-recommends \
+    rm -f /etc/apt/apt.conf.d/docker-clean && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
     curl \
     cups \
     cpio \
