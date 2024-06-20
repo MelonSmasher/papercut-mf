@@ -9,8 +9,8 @@ if [ -z "$1" ]; then
 fi
 
 # check if we're on amd64 and use buildx if not
-if [ "$(uname -m)" != "x86_64" ]; then
-    docker buildx build --platform linux/amd64 --build-arg="PAPERCUT_MF_VERSION=${1}" -t "papercut-mf:${1}" .
-else
-    docker build -t --build-arg="PAPERCUT_MF_VERSION=${1}" "papercut-mf:${1}" .
-fi
+# if [ "$(uname -m)" != "x86_64" ]; then
+docker buildx build --platform linux/amd64 --build-arg="PAPERCUT_MF_VERSION=${1}" -t "papercut-mf:${1}" .
+# else
+#     docker build -t --build-arg="PAPERCUT_MF_VERSION=${1}" "papercut-mf:${1}" .
+# fi
