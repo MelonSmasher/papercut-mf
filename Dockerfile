@@ -27,7 +27,8 @@ RUN useradd -m -d ${PAPERCUT_MF_INSTALL_DIR} -s /bin/bash ${PAPERCUT_USER} && \
     chown -R ${PAPERCUT_USER}:${PAPERCUT_USER} ${PAPERCUT_MF_INSTALL_DIR} && \
     chmod +x /entrypoint.sh
 
-RUN apt-get update && apt-get install -y \
+RUN --mount=type=cache,target=/var/cache/apt \
+    apt-get update && apt-get install -y \
     curl \
     cups \
     cpio \
