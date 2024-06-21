@@ -6,6 +6,7 @@ LABEL org.opencontainers.image.authors="Alex Markessinis <markea125@gmail.com>"
 
 ARG PAPERCUT_MF_VERSION
 ARG ENVSUBST_VERSION=1.4.2
+ARG MAJOR_VER=$(echo ${PAPERCUT_MF_VERSION} | cut -d '.' -f 1)
 
 ENV PAPERCUT_LICENSE_BACKUP_INTERVAL_SECONDS 1800
 ENV PAPERCUT_UUID_BACKUP_INTERVAL_SECONDS 3600
@@ -47,7 +48,7 @@ RUN apt-get update -qq && \
     rm -rf /etc/supervisor && \
     curl -o /usr/local/bin/envsubst -L https://github.com/a8m/envsubst/releases/download/v${ENVSUBST_VERSION}/envsubst-Linux-x86_64 && \
     chmod +x /usr/local/bin/envsubst && \
-    sudo -u papercut -H bash <(curl -L https://cdn.papercut.com/web/products/ng-mf/installers/mf/"$(echo ${PAPERCUT_MF_VERSION} | cut -d '.' -f 1)".x/pcmf-setup-${PAPERCUT_MF_VERSION}.sh -o -) -v --non-interactive && \
+    sudo -u papercut -H bash <(curl -L https://cdn.papercut.com/web/products/ng-mf/installers/mf/$MAJOR_VER.x/pcmf-setup-${PAPERCUT_MF_VERSION}.sh -o -) -v --non-interactive && \
     #curl -L https://cdn.papercut.com/web/products/ng-mf/installers/mf/$(echo ${PAPERCUT_MF_VERSION} | cut -d "." -f 1).x/pcmf-setup-${PAPERCUT_MF_VERSION}.sh -o - | sudo -u papercut -H env PATH=$PATH bash -s -- -v --non-interactive && \
     # curl -o pcmf-setup.sh -L https://cdn.papercut.com/web/products/ng-mf/installers/mf/$(echo ${PAPERCUT_MF_VERSION} | cut -d "." -f 1).x/pcmf-setup-${PAPERCUT_MF_VERSION}.sh && \
     # chmod a+rx pcmf-setup.sh && \
