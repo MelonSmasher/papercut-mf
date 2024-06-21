@@ -47,7 +47,7 @@ RUN apt-get update -qq && \
     rm -rf /etc/supervisor && \
     curl -o /usr/local/bin/envsubst -L https://github.com/a8m/envsubst/releases/download/v${ENVSUBST_VERSION}/envsubst-Linux-x86_64 && \
     chmod +x /usr/local/bin/envsubst && \
-    runuser -l  papercut -c "curl -L https://cdn.papercut.com/web/products/ng-mf/installers/mf/$(echo ${PAPERCUT_MF_VERSION} | cut -d '.' -f 1).x/pcmf-setup-${PAPERCUT_MF_VERSION}.sh | bash -s -- -v --non-interactive" && \
+    runuser -l  papercut -c "curl -L https://cdn.papercut.com/web/products/ng-mf/installers/mf/$(echo ${PAPERCUT_MF_VERSION} | cut -d '.' -f 1).x/pcmf-setup-${PAPERCUT_MF_VERSION}.sh -o - | xargs sh -s -- -v --non-interactive" && \
     # curl -o pcmf-setup.sh -L https://cdn.papercut.com/web/products/ng-mf/installers/mf/$(echo ${PAPERCUT_MF_VERSION} | cut -d "." -f 1).x/pcmf-setup-${PAPERCUT_MF_VERSION}.sh && \
     # chmod a+rx pcmf-setup.sh && \
     # chown papercut:papercut pcmf-setup.sh && \
