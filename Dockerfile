@@ -21,16 +21,7 @@ RUN useradd -m -d /papercut -s /bin/bash papercut && \
 
 WORKDIR /papercut
 
-RUN set -exu && \
-    rm -f /etc/apt/apt.conf.d/docker-clean && \
-    echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache && \
-    echo 'Acquire::CompressionTypes::Order:: "gz";' > /etc/apt/apt.conf.d/99use-gzip-compression
-
-RUN --mount=type=cache,id=apt-cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,id=apt-lib,target=/var/lib/apt,sharing=locked \
-    --mount=type=cache,id=debconf,target=/var/cache/debconf,sharing=locked \
-    set -exu && \
-    apt-get update -qq && \
+RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive \
     apt-get -y install -y -qq --no-install-recommends \
     ca-certificates \
@@ -46,16 +37,22 @@ RUN --mount=type=cache,id=apt-cache,target=/var/cache/apt,sharing=locked \
     samba-common-bin \
     smbclient \
     sudo && \
+    apt autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/dpkg && \
+    rm -rf /var/cache/debconf && \
+    rm -rf /var/lib/apt/lists/* && \
     truncate -s 0 /var/log/apt/* && \
     truncate -s 0 /var/log/dpkg.log && \
     rm -rf /etc/supervisor && \
     curl -o /usr/local/bin/envsubst -L https://github.com/a8m/envsubst/releases/download/v${ENVSUBST_VERSION}/envsubst-Linux-x86_64 && \
     chmod +x /usr/local/bin/envsubst && \
-    curl -o pcmf-setup.sh -L https://cdn.papercut.com/web/products/ng-mf/installers/mf/$(echo ${PAPERCUT_MF_VERSION} | cut -d "." -f 1).x/pcmf-setup-${PAPERCUT_MF_VERSION}.sh && \
-    chmod a+rx pcmf-setup.sh && \
-    chown papercut:papercut pcmf-setup.sh && \
-    sudo -u papercut -H ./pcmf-setup.sh -v --non-interactive && \
-    rm pcmf-setup.sh && \
+    runuser -l  papercut -c 'curl -L https://cdn.papercut.com/web/products/ng-mf/installers/mf/$(echo ${PAPERCUT_MF_VERSION} | cut -d "." -f 1).x/pcmf-setup-${PAPERCUT_MF_VERSION}.sh | bash -s -- -v --non-interactive' && \
+    # curl -o pcmf-setup.sh -L https://cdn.papercut.com/web/products/ng-mf/installers/mf/$(echo ${PAPERCUT_MF_VERSION} | cut -d "." -f 1).x/pcmf-setup-${PAPERCUT_MF_VERSION}.sh && \
+    # chmod a+rx pcmf-setup.sh && \
+    # chown papercut:papercut pcmf-setup.sh && \
+    # runuser -l  papercut -c './pcmf-setup.sh -v --non-interactive' && \
+    # rm pcmf-setup.sh && \
     /papercut/MUST-RUN-AS-ROOT && \
     rm -rf /papercut/MUST-RUN-AS-ROOT && \
     /etc/init.d/papercut stop && \
