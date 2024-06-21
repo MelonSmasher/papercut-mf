@@ -38,8 +38,7 @@ RUN --mount=type=cache,id=apt-cache,target=/var/cache/apt,sharing=locked \
     truncate -s 0 /var/log/dpkg.log && \
     rm -rf /etc/supervisor && \
     useradd -m -d /papercut -s /bin/bash papercut && \
-    chown -R papercut:papercut /papercut && \
-    chmod +x /entrypoint.sh
+    chown -R papercut:papercut /papercut
 
 COPY src/supervisor /etc/supervisor
 COPY src/server.properties.template /
@@ -63,7 +62,8 @@ RUN curl -o /usr/local/bin/envsubst -L https://github.com/a8m/envsubst/releases/
     /papercut/server/bin/linux-x64/setperms && \
     chmod 644 /etc/supervisor/supervisord.conf /etc/supervisor/conf.d/*.conf && \
     chmod 755 /etc/supervisor /etc/supervisor/conf.d && \
-    chown -R root:root /etc/supervisor
+    chown -R root:root /etc/supervisor && \
+    chmod +x /entrypoint.sh
 
 VOLUME /papercut/server/data/conf /papercut/server/custom /papercut/server/logs /papercut/server/data/backups /papercut/server/data/archive
 EXPOSE 9163 9164 9165 9191 9192 9193 9194 9195 10389 10636 137/UDP 445 139
