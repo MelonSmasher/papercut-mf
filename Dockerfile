@@ -12,6 +12,14 @@ ENV PAPERCUT_UUID_BACKUP_INTERVAL_SECONDS 3600
 ENV SMB_NETBIOS_NAME papercut-mf
 ENV SMB_WORKGROUP WORKGROUP
 
+RUN useradd -m -d /papercut -s /bin/bash papercut
+
+WORKDIR /papercut
+
+COPY src/server.properties.template /
+COPY src/entrypoint.sh /
+COPY src/smb.conf.template /
+
 RUN set -exu && \
         rm -f /etc/apt/apt.conf.d/docker-clean && \
         echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache && \
@@ -38,25 +46,12 @@ RUN --mount=type=cache,id=apt-cache,target=/var/cache/apt,sharing=locked \
     smbclient \
     sudo && \
     truncate -s 0 /var/log/apt/* && \
-    truncate -s 0 /var/log/dpkg.log
-
-RUN curl -o /usr/local/bin/envsubst -L https://github.com/a8m/envsubst/releases/download/v${ENVSUBST_VERSION}/envsubst-Linux-x86_64 && \
+    truncate -s 0 /var/log/dpkg.log && \
+    rm -rf /etc/supervisor && \
+    curl -o /usr/local/bin/envsubst -L https://github.com/a8m/envsubst/releases/download/v${ENVSUBST_VERSION}/envsubst-Linux-x86_64 && \
     chmod +x /usr/local/bin/envsubst
 
-RUN useradd -m -d /papercut -s /bin/bash papercut
-
-WORKDIR /papercut
-
-COPY src/server.properties.template /
-COPY src/entrypoint.sh /
-COPY src/smb.conf.template /
-RUN rm -rf /etc/supervisor
 COPY src/supervisor /etc/supervisor
-
-RUN chmod 644 /etc/supervisor/supervisord.conf /etc/supervisor/conf.d/*.conf && \
-    chmod 755 /etc/supervisor /etc/supervisor/conf.d && \
-    chown -R root:root /etc/supervisor && \
-    chmod +x /entrypoint.sh
 
 RUN curl -o pcmf-setup.sh -L https://cdn.papercut.com/web/products/ng-mf/installers/mf/$(echo ${PAPERCUT_MF_VERSION} | cut -d "." -f 1).x/pcmf-setup-${PAPERCUT_MF_VERSION}.sh && \
     chmod a+rx pcmf-setup.sh && \
@@ -68,7 +63,11 @@ RUN curl -o pcmf-setup.sh -L https://cdn.papercut.com/web/products/ng-mf/install
     /etc/init.d/papercut stop && \
     /etc/init.d/papercut-web-print stop && \
     /etc/init.d/papercut-event-monitor stop && \
-    /etc/init.d/pc-print-deploy stop
+    /etc/init.d/pc-print-deploy stop && \
+    chmod 644 /etc/supervisor/supervisord.conf /etc/supervisor/conf.d/*.conf && \
+    chmod 755 /etc/supervisor /etc/supervisor/conf.d && \
+    chown -R root:root /etc/supervisor && \
+    chmod +x /entrypoint.sh
 
 VOLUME /papercut/server/data/conf /papercut/server/custom /papercut/server/logs /papercut/server/data/backups /papercut/server/data/archive
 EXPOSE 9163 9164 9165 9191 9192 9193 9194 9195 10389 10636 137/UDP 445 139
