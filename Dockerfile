@@ -14,6 +14,10 @@ ENV SMB_WORKGROUP WORKGROUP
 
 WORKDIR /papercut
 
+COPY src/server.properties.template /
+COPY src/entrypoint.sh /
+COPY src/smb.conf.template /
+
 RUN --mount=type=cache,id=apt-cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,id=apt-lib,target=/var/lib/apt,sharing=locked \
     --mount=type=cache,id=debconf,target=/var/cache/debconf,sharing=locked \
@@ -41,9 +45,6 @@ RUN --mount=type=cache,id=apt-cache,target=/var/cache/apt,sharing=locked \
     chown -R papercut:papercut /papercut
 
 COPY src/supervisor /etc/supervisor
-COPY src/server.properties.template /
-COPY src/entrypoint.sh /
-COPY src/smb.conf.template /
 
 RUN curl -o /usr/local/bin/envsubst -L https://github.com/a8m/envsubst/releases/download/v${ENVSUBST_VERSION}/envsubst-Linux-x86_64 && chmod +x /usr/local/bin/envsubst && \
     curl -o pcmf-setup.sh -L https://cdn.papercut.com/web/products/ng-mf/installers/mf/$(echo ${PAPERCUT_MF_VERSION} | cut -d "." -f 1).x/pcmf-setup-${PAPERCUT_MF_VERSION}.sh && \
