@@ -50,7 +50,7 @@ RUN apt-get update -qq && \
     curl -o pcmf-setup.sh -L https://cdn.papercut.com/web/products/ng-mf/installers/mf/$(echo ${PAPERCUT_MF_VERSION} | cut -d "." -f 1).x/pcmf-setup-${PAPERCUT_MF_VERSION}.sh && \
     chmod a+rx pcmf-setup.sh && \
     chown papercut:papercut pcmf-setup.sh && \
-    runuser -l  papercut -c './pcmf-setup.sh -v --non-interactive' && \
+    sudo -u papercut -H ./pcmf-setup.sh -v --non-interactive && \
     rm pcmf-setup.sh && \
     /papercut/MUST-RUN-AS-ROOT && \
     rm -rf /papercut/MUST-RUN-AS-ROOT && \
