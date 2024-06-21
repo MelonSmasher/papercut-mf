@@ -18,6 +18,9 @@ COPY src/server.properties.template /
 COPY src/entrypoint.sh /
 COPY src/smb.conf.template /
 
+RUN useradd -m -d /papercut -s /bin/bash papercut && \
+    chown -R papercut:papercut /papercut
+
 RUN --mount=type=cache,id=apt-cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,id=apt-lib,target=/var/lib/apt,sharing=locked \
     --mount=type=cache,id=debconf,target=/var/cache/debconf,sharing=locked \
@@ -39,10 +42,9 @@ RUN --mount=type=cache,id=apt-cache,target=/var/cache/apt,sharing=locked \
     smbclient \
     sudo && \
     truncate -s 0 /var/log/apt/* && \
-    truncate -s 0 /var/log/dpkg.log && \
-    rm -rf /etc/supervisor && \
-    useradd -m -d /papercut -s /bin/bash papercut && \
-    chown -R papercut:papercut /papercut
+    truncate -s 0 /var/log/dpkg.log
+
+RUN rm -rf /etc/supervisor
 
 COPY src/supervisor /etc/supervisor
 
