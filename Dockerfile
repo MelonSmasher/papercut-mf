@@ -33,8 +33,7 @@ RUN --mount=type=cache,id=apt-cache,target=/var/cache/apt,sharing=locked \
     smbclient \
     sudo && \
     truncate -s 0 /var/log/apt/* && \
-    truncate -s 0 /var/log/dpkg.log && \
-    rm -rf /etc/supervisor
+    truncate -s 0 /var/log/dpkg.log
 
 RUN curl -o /usr/local/bin/envsubst -L https://github.com/a8m/envsubst/releases/download/v${ENVSUBST_VERSION}/envsubst-Linux-x86_64 && \
     chmod +x /usr/local/bin/envsubst
@@ -46,6 +45,7 @@ WORKDIR /papercut
 COPY src/server.properties.template /
 COPY src/entrypoint.sh /
 COPY src/smb.conf.template /
+RUN rm -rf /etc/supervisor
 COPY src/supervisor /etc/supervisor
 
 RUN chmod 644 /etc/supervisor/supervisord.conf /etc/supervisor/conf.d/*.conf && \
