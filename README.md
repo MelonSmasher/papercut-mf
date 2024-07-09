@@ -6,6 +6,10 @@
 
 Papercut MF application server.
 
+### Looking for the Papercut MF Site Server?
+
+The Papercut MF Site Server is available at [MelonSmasher/papercut-mf-site](https://github.com/melonsmasher/papercut-mf-site)
+
 ## License
 
 The code in this repository, unless otherwise noted, is licensed under the [MIT License](https://raw.githubusercontent.com/MelonSmasher/papercut-mf/master/LICENSE).
