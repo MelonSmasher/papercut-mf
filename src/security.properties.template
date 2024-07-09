@@ -1,0 +1,6 @@
+security.print-and-device.script.enabled=${PAPERCUT_SECURITY_PRINT_AND_DEVICE_SCRIPT_ENABLE:=N}
+security.print-script.allow-unsafe-code=${PAPERCUT_SECURITY_PRINT_SCRIPT_ALLOW_UNSAFE_CODE:=N}
+security.device-script.allow-unsafe-code=${PAPERCUT_SECURITY_DEVICE_SCRIPT_ALLOW_UNSAFE_CODE:=N}
+security.card-no-converter-script.path-allow-list=${PAPERCUT_SECURITY_CARD_NO_CONVERTER_SCRIPT_PATH_ALLOW_LIST}
+security.card-no-converter-script.allow-unsafe-code=${PAPERCUT_SECURITY_CARD_NO_CONVERTER_SCRIPT_ALLOW_UNSAFE_CODE:=N}
+security.custom-executable.allowed-directory-list=${PAPERCUT_SECURITY_CUSTOM_EXECUTABLE_ALLOWED_DIRECTORY_LIST}

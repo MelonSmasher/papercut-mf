@@ -42,6 +42,7 @@ if [[ -x /etc/init.d/papercut ]]; then
 
     echo "Setting server config..."
     sudo -u papercut -H cat /server.properties.template | envsubst | tee /papercut/server/server.properties
+    sudo -u papercut -H cat /security.properties.template | envsubst | tee /papercut/server/security.properties
     cat /smb.conf.template | envsubst | tee /etc/samba/smb.conf
 
     # database needs to initialized

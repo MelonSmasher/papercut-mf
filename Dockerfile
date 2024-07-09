@@ -13,6 +13,7 @@ ENV SMB_NETBIOS_NAME=papercut-mf
 ENV SMB_WORKGROUP=WORKGROUP
 
 COPY src/server.properties.template /
+COPY src/security.properties.template /
 COPY src/entrypoint.sh /
 COPY src/smb.conf.template /
 

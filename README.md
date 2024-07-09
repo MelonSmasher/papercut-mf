@@ -134,6 +134,17 @@ Papercut logs are also stored in the `vols/app/logs/` directory.
 - `SMB_NETBIOS_NAME`: The NetBIOS name to use. Default is `papercut-mf`.
 - `SMB_WORKGROUP`: The workgroup to use. Default is `WORKGROUP`.
 
+### Version 22+ Environment Variables
+
+From version 22 onwards, the following environment variables are available that control the security.properties file
+
+- `PAPERCUT_SECURITY_PRINT_AND_DEVICE_SCRIPT_ENABLE`: Controls if print scripts and device scripts are enabled. Default is `N`, other option is `Y`.
+- `PAPERCUT_SECURITY_PRINT_SCRIPT_ALLOW_UNSAFE_CODE`: Controls if print scripts are allowed to execute potentially unsafe code, such as calling executables or using extended Java classes. Default is `N`, other option is `Y`.
+- `PAPERCUT_SECURITY_DEVICE_SCRIPT_ALLOW_UNSAFE_CODE`: Controls if device scripts are allowed to execute potentially unsafe code, such as calling executables or using extended Java classes. Default is `N`, other option is `Y`.
+- `PAPERCUT_SECURITY_CARD_NO_CONVERTER_SCRIPT_PATH_ALLOW_LIST`: Controls if card converter (JavaScript) scripts are allowed to run. Default is empty. To grant access to multiple scripts, separate them with a semicolon (;). E.G. `PAPERCUT_SECURITY_CARD_NO_CONVERTER_SCRIPT_PATH_ALLOW_LIST=/path/to/script1.js;/path/to/script2.js`
+- `PAPERCUT_SECURITY_CARD_NO_CONVERTER_SCRIPT_ALLOW_UNSAFE_CODE`: Controls if card converter scripts (JavaScript) are allowed to execute potentially unsafe code such as calling executables or using extended Java classes. Default is `N`, other option is `Y`.
+- `PAPERCUT_SECURITY_CUSTOM_EXECUTABLE_ALLOWED_DIRECTORY_LIST`: Controls the directories where custom executables files can be executed from. Default is empty. To grant access to multiple directories, separate them with a semicolon (;). E.G. `PAPERCUT_SECURITY_CUSTOM_EXECUTABLE_ALLOWED_DIRECTORY_LIST=/path/to/directory1;/path/to/directory2`
+
 ## SMB
 
 The container runs an SMB server that publishes a read only share that lets you access the Papercut client. This can be accessed at `\\hostname-or-ip\pc-client`.
