@@ -1,4 +1,4 @@
-# Papercut MF Application Server
+# Papercut MF Application Server Container
 
 [![GitHub](https://img.shields.io/badge/GitHub-gray?logo=github)](https://github.com/melonsmasher/papercut-mf) [![DockerHub](https://img.shields.io/badge/DockerHub-white?logo=docker)](https://hub.docker.com/r/melonsmasher/papercut-mf) [![License](https://img.shields.io/github/license/melonsmasher/papercut-mf)](https://raw.githubusercontent.com/MelonSmasher/papercut-mf/master/LICENSE)
 
